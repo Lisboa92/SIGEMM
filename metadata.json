@@ -1,0 +1,11 @@
+{
+  "name": "SIGEMM - Sistema de Gestão de Multas",
+  "description": "Sistema de gestão e emissão de multas municipais em tempo real",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

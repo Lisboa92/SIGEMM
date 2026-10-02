@@ -1,0 +1,87 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# SIGEMM – Sistema de Gestão de Multas Municipais
+# Trabalho Prático INFC-0015 · Computação na Nuvem · UTDEG 2026
+#
+# Arquitectura em três camadas, totalmente containerizada com Docker:
+#   CAMADA 1 (Frontend)   → React + Vite, servido por Nginx          (porta 8080)
+#   CAMADA 2 (Backend)    → Node.js + Express (API REST)             (porta 3000)
+#   CAMADA 3 (Base Dados) → PostgreSQL 16 com volume persistente     (porta 5432)
+#
+# Os serviços comunicam por uma rede virtual privada (rede-sigemm) e
+# usam DNS interno do Docker (ex.: o backend liga-se a "database:5432").
+# ─────────────────────────────────────────────────────────────────────────────
+version: "3.9"
+
+services:
+
+  # ── CAMADA 1: Frontend (React + Vite servido por Nginx) ────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: sigemm-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - rede-sigemm
+    restart: unless-stopped
+
+  # ── CAMADA 2: Backend (API REST em Node.js / Express) ──────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sigemm-backend
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://sigemm:sigemm_secret@database:5432/sigemm_db
+      JWT_SECRET: "${JWT_SECRET:-sigemm-troque-este-segredo-em-producao}"
+      PORT: 3000
+      SYSTEM_URL: "${SYSTEM_URL:-http://localhost:8080}"
+      # Nodemailer (deixe vazio para usar transporte de desenvolvimento que apenas regista no console)
+      SMTP_HOST: "${SMTP_HOST:-}"
+      SMTP_PORT: "${SMTP_PORT:-587}"
+      SMTP_SECURE: "${SMTP_SECURE:-false}"
+      SMTP_USER: "${SMTP_USER:-}"
+      SMTP_PASS: "${SMTP_PASS:-}"
+      SMTP_FROM: "${SMTP_FROM:-SIGEMM <no-reply@matola.gov.mz>}"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - rede-sigemm
+    restart: unless-stopped
+
+  # ── CAMADA 3: Base de Dados (PostgreSQL 16 com volume persistente) ─────────
+  database:
+    image: postgres:16-alpine
+    container_name: sigemm-database
+    environment:
+      POSTGRES_USER: sigemm
+      POSTGRES_PASSWORD: sigemm_secret
+      POSTGRES_DB: sigemm_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - dados-sigemm:/var/lib/postgresql/data        # Persistência dos dados
+    networks:
+      - rede-sigemm
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sigemm -d sigemm_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+# Volume nomeado → garante persistência mesmo após `docker compose down`
+volumes:
+  dados-sigemm:
+    driver: local
+
+# Rede virtual privada → isola os containers do exterior
+networks:
+  rede-sigemm:
+    driver: bridge

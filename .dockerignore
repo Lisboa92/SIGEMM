@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.env
+.env.local
+*.log
+.vscode
+.idea
+coverage
+playwright-report
+test-results
+backend/node_modules

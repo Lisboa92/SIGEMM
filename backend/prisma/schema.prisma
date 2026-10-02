@@ -1,0 +1,48 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// SIGEMM · Schema Prisma (Camada 3 — Base de Dados PostgreSQL)
+// Facilita as migrations automáticas no momento do `docker compose up`
+// (o comando `prisma migrate deploy` corre antes de o servidor arrancar).
+// ─────────────────────────────────────────────────────────────────────────────
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id              String    @id @default(uuid())
+  nome            String
+  email           String    @unique
+  username        String    @unique
+  senhaHash       String    @map("senha_hash")
+  nivelAcesso     String    @default("agente_campo") @map("nivel_acesso")
+  mustChangePass  Boolean   @default(true)            @map("must_change_password")
+  ativo           Boolean   @default(true)
+  createdAt       DateTime  @default(now())           @map("created_at")
+  updatedAt       DateTime  @updatedAt                @map("updated_at")
+  multas          Multa[]
+
+  @@map("usuarios")
+}
+
+model Multa {
+  id            String   @id @default(uuid())
+  numero        String   @unique
+  infratorNome  String   @map("infrator_nome")
+  matricula     String?
+  local         String
+  infracaoTipo  String   @map("infracao_tipo")
+  valor         Decimal  @default(0) @db.Decimal(12, 2)
+  status        String   @default("pendente")
+  agenteId      String?  @map("agente_id")
+  agente        Usuario? @relation(fields: [agenteId], references: [id])
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt      @map("updated_at")
+
+  @@map("multas")
+  @@index([status])
+  @@index([createdAt])
+}

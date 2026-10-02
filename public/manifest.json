@@ -1,0 +1,56 @@
+{
+  "id": "/",
+  "name": "SIGEMM - Sistema de Gestão de Multas",
+  "short_name": "SIGEMM",
+  "description": "Sistema de gestão e emissão de multas municipais em tempo real — Município da Matola",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "lang": "pt-MZ",
+  "dir": "ltr",
+  "categories": ["government", "productivity", "utilities"],
+  "background_color": "#064e3b",
+  "theme_color": "#065f46",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Emitir Multa",
+      "short_name": "Nova Multa",
+      "description": "Emitir auto de notícia no terreno",
+      "url": "/nova-multa",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Histórico de Autos",
+      "short_name": "Histórico",
+      "description": "Consultar autos e multas lavradas",
+      "url": "/historico",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" />
+      <stop offset="50%" stop-color="#065f46" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Background Shield -->
+  <rect width="512" height="512" rx="96" fill="url(#bgGrad)" />
+
+  <!-- Outer Ring Accent -->
+  <rect x="24" y="24" width="464" height="464" rx="80" fill="none" stroke="url(#goldGrad)" stroke-width="8" opacity="0.85" />
+
+  <!-- Shield Shape -->
+  <path d="M 256 80 L 384 136 C 384 272 256 384 256 424 C 256 384 128 272 128 136 Z" 
+        fill="#044d37" stroke="url(#goldGrad)" stroke-width="10" filter="url(#shadow)" />
+
+  <!-- Scale of Justice / Municipal Emblem -->
+  <!-- Central Beam -->
+  <rect x="248" y="140" width="16" height="210" rx="6" fill="url(#goldGrad)" />
+  <!-- Base Stand -->
+  <path d="M 200 360 L 312 360 L 292 340 L 220 340 Z" fill="url(#goldGrad)" />
+  <!-- Horizontal Balance Bar -->
+  <rect x="176" y="176" width="160" height="12" rx="4" fill="url(#goldGrad)" />
+  <circle cx="256" cy="182" r="14" fill="#fbbf24" />
+
+  <!-- Left Scale Pan -->
+  <line x1="184" y1="188" x2="160" y2="236" stroke="#fbbf24" stroke-width="4" />
+  <line x1="184" y1="188" x2="208" y2="236" stroke="#fbbf24" stroke-width="4" />
+  <path d="M 152 236 Q 184 256 216 236 Z" fill="#fbbf24" />
+
+  <!-- Right Scale Pan -->
+  <line x1="328" y1="188" x2="304" y2="236" stroke="#fbbf24" stroke-width="4" />
+  <line x1="328" y1="188" x2="352" y2="236" stroke="#fbbf24" stroke-width="4" />
+  <path d="M 296 236 Q 328 256 360 236 Z" fill="#fbbf24" />
+
+  <!-- Top Star -->
+  <path d="M 256 100 L 263 118 L 282 118 L 267 129 L 273 147 L 256 136 L 239 147 L 245 129 L 230 118 L 249 118 Z" fill="#fbbf24" />
+
+  <!-- Label SIGEMM -->
+  <text x="256" y="468" text-anchor="middle" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="44" fill="#ffffff" letter-spacing="4">SIGEMM</text>
+</svg>
